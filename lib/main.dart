@@ -10,7 +10,7 @@ void main() async {
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Belajar Getx Cuy",
+      title: "Belajar GetX",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     ),

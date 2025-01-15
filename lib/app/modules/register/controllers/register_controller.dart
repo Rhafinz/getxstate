@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:myapp/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:myapp/app/utils/api.dart';
 
 class RegisterController extends GetxController {
@@ -13,15 +14,23 @@ class RegisterController extends GetxController {
   final authToken = GetStorage();
 
   void registerNow() async {
-    final response = await _getConnect.post(BaseUrl.register, {
-      'name': nameController.text,
-      'email': emailController.text,
-      'password': passwordController.text,
-      'password_confirmation': passwordConfirmationController.text,
-    });
+    final response = await _getConnect.post(
+      BaseUrl.register,
+      {
+        'name': nameController.text,
+        'email': emailController.text,
+        'password': passwordController.text,
+        'password_confirmation': passwordConfirmationController.text,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       authToken.write('token', response.body['token']);
+      Get.offAll(() => const DashboardView());
     } else {
       Get.snackbar(
         'Error',
