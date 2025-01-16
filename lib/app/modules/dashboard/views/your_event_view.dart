@@ -111,7 +111,9 @@ class YourEventView extends GetView {
                           'Delete',
                           style: TextStyle(color: Colors.red),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          controller.deleteEvent(id: event.id!);
+                        },
                       ),
                     ],
                   ),

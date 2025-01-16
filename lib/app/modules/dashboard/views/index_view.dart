@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:lottie/lottie.dart';
-import 'package:myapp/app/data/event_response.dart';
-import 'package:myapp/app/modules/dashboard/controllers/dashboard_controller.dart';
-import 'package:myapp/app/modules/dashboard/views/event_detail_view.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+
+import '../../../data/event_response.dart';
+import '../controllers/dashboard_controller.dart';
+import 'event_detail_view.dart';
 
 class IndexView extends GetView {
   const IndexView({super.key});
@@ -44,7 +44,10 @@ class IndexView extends GetView {
               itemBuilder: (context, index) {
                 return ZoomTapAnimation(
                   onTap: () {
-                    Get.to(() => EventDetailView(), id: 1);
+                    Get.to(
+                      () => EventDetailView(
+                          eventId: snapshot.data!.events![index].id!),
+                    );
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +55,6 @@ class IndexView extends GetView {
                       Image.network(
                         'https://picsum.photos/id/${snapshot.data!.events![index].id}/700/300',
                         fit: BoxFit.cover,
-                        height: 200,
                         width: 500,
                         errorBuilder: (context, error, stackTrace) {
                           return const SizedBox(
@@ -65,7 +67,7 @@ class IndexView extends GetView {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'title',
+                        snapshot.data!.events![index].name.toString(),
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -73,7 +75,7 @@ class IndexView extends GetView {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'description',
+                        snapshot.data!.events![index].description.toString(),
                         style: const TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
@@ -89,7 +91,7 @@ class IndexView extends GetView {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'location',
+                              snapshot.data!.events![index].location.toString(),
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.black,

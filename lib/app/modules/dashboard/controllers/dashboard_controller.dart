@@ -137,34 +137,63 @@ class DashboardController extends GetxController {
 
   void deleteEvent({required int id}) async {
     final response = await _getConnect.post(
-      '${BaseUrl.deleteEvents}$id',
+      '${BaseUrl.deleteEvents}/$id',
       {
         '_method': 'delete',
       },
-      headers: {
-        'Authorization': "Bearer $token"
-      },
-      contentType: "application/json", 
+      headers: {'Authorization': "Bearer $token"},
+      contentType: "application/json",
     );
 
     if (response.statusCode == 200) {
       Get.snackbar(
-        'Success', 
-        'Event Deleted', 
+        'Success',
+        'Event Deleted',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green, 
+        backgroundColor: Colors.green,
         colorText: Colors.white,
       );
 
-      update(); 
+      update();
       getEvent();
-      getYourEvent(); 
+      getYourEvent();
     } else {
       Get.snackbar(
-        'Failed', 
+        'Failed',
         'Event Failed to Delete',
-        snackPosition: SnackPosition.BOTTOM, 
-        backgroundColor: Colors.red, 
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  void logOut() async {
+    final response = await _getConnect.post(
+      BaseUrl.logout,
+      {},
+      headers: {'Authorization': "Bearer $token"},
+      contentType: "application/json",
+    );
+
+    if (response.statusCode == 200) {
+      Get.snackbar(
+        'Success',
+        'Logout Success',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+
+      GetStorage().erase();
+
+      Get.offAllNamed('/login');
+    } else {
+      Get.snackbar(
+        'Failed',
+        'Logout Failed',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
         colorText: Colors.white,
       );
     }
